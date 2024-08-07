@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #6200ea;
+            --secondary-color: #03dac6;
+            --background-color: #121212;
+            --surface-color: #1e1e1e;
+            --on-surface-color: #ffffff;
+            --text-color: #e0e0e0;
+            --card-bg: #2d2d2d;
+            --card-hover: #3d3d3d;
+            --success-color: #00e676;
+            --warning-color: #ffd600;
+            --danger-color: #ff1744;
+            --info-color: #00b0ff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .navbar {
+            background-color: var(--surface-color);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-brand {
+            color: var(--on-surface-color);
+            font-weight: 700;
+            font-size: 1.5rem;
+            text-decoration: none;
+        }
+
+        .btn-logout {
+            background-color: var(--danger-color);
+            color: var(--on-surface-color);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-logout:hover {
+            background-color: #d50000;
+        }
+
+        .container {
+            flex-grow: 1;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .dashboard-header {
+            text-align: center;
+            padding: 2rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .dashboard-header h1 {
+            font-size: 2.5rem;
+            color: var(--on-surface-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .dashboard-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .stat-card {
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            background-color: var(--card-hover);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .stat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .stat-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--on-surface-color);
+        }
+
+        .stat-icon {
+            font-size: 1.5rem;
+            color: var(--secondary-color);
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--on-surface-color);
+        }
+
+        .stat-card.success { border-left: 4px solid var(--success-color); }
+        .stat-card.warning { border-left: 4px solid var(--warning-color); }
+        .stat-card.danger { border-left: 4px solid var(--danger-color); }
+        .stat-card.info { border-left: 4px solid var(--info-color); }
+
+        .chart-container {
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .chart-title {
+            font-size: 1.5rem;
+            color: var(--on-surface-color);
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .dashboard-header h1 {
+                font-size: 2rem;
+            }
+
+            .stat-card {
+                padding: 1rem;
+            }
+
+            .stat-value {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a class="navbar-brand" href="#">AdminHub</a>
+        <button class="btn-logout" onclick="location.href='/logout'">Log Out</button>
+    </nav>
+    <div class="container">
+        <div class="dashboard-header">
+            <h1>Welcome, {{info_data["user_name"]}}!</h1>
+        </div>
+        <div class="dashboard-stats">
+            <div class="stat-card success" onclick="window.location.href='{{ url_for('admin.all_users') }}'">
+                <div class="stat-header">
+                    <span class="stat-title">Total Users</span>
+                    <i class="fas fa-users stat-icon"></i>
+                </div>
+                <span class="stat-value" id="total-users">0</span>
+            </div>
+            <div class="stat-card info" onclick="window.location.href='{{ url_for('admin.all_sponsors') }}'">
+                <div class="stat-header">
+                    <span class="stat-title">Total Sponsors</span>
+                    <i class="fas fa-handshake stat-icon"></i>
+                </div>
+                <span class="stat-value" id="total-sponsors">0</span>
+            </div>
+            <div class="stat-card warning" onclick="window.location.href='{{ url_for('admin.all_influencers') }}'">
+                <div class="stat-header">
+                    <span class="stat-title">Total Influencers</span>
+                    <i class="fas fa-star stat-icon"></i>
+                </div>
+                <span class="stat-value" id="total-influencers">0</span>
+            </div>
+            <div class="stat-card danger" onclick="window.location.href='{{ url_for('admin.all_user_flags') }}'">
+                <div class="stat-header">
+                    <span class="stat-title">Flagged Users</span>
+                    <i class="fas fa-flag stat-icon"></i>
+                </div>
+                <span class="stat-value" id="user-flagged-items">0</span>
+            </div>
+        </div>
+        <div class="dashboard-stats">
+            <div class="stat-card info" onclick="window.location.href='{{ url_for('admin.all_campaigns') }}'">
+                <div class="stat-header">
+                    <span class="stat-title">Total Campaigns</span>
+                    <i class="fas fa-bullhorn stat-icon"></i>
+                </div>
+                <div>
+                    <div>Public: <span id="total-campaigns-public">0</span></div>
+                    <div>Private: <span id="total-campaigns-private">0</span></div>
+                </div>
+            </div>
+            <div class="stat-card warning" onclick="window.location.href='{{ url_for('admin.all_campaign_flags') }}'">
+                <div class="stat-header">
+                    <span class="stat-title">Flagged Campaigns</span>
+                    <i class="fas fa-flag stat-icon"></i>
+                </div>
+                <span class="stat-value" id="campaign-flagged-items">0</span>
+            </div>
+            <div class="stat-card success" onclick="window.location.href='{{ url_for('admin.all_adrequests') }}'">
+                <div class="stat-header">
+                    <span class="stat-title">Ad Requests</span>
+                    <i class="fas fa-ad stat-icon"></i>
+                </div>
+                <div>
+                    <div>Pending: <span id="total-ad-requests-pending">0</span></div>
+                    <div>Accepted: <span id="total-ad-requests-accepted">0</span></div>
+                </div>
+            </div>
+        </div>
+        <div class="chart-container">
+            <h2 class="chart-title">Analytics Overview</h2>
+            <!-- Add a chart or graph here using a library like Chart.js -->
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            fetch('/admin/dashboard/data')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('total-users').textContent = data.total_users;
+                    document.getElementById('total-sponsors').textContent = data.total_sponsors;
+                    document.getElementById('total-campaigns-public').textContent = data.total_campaigns_public;
+                    document.getElementById('total-campaigns-private').textContent = data.total_campaigns_private;
+                    document.getElementById('total-ad-requests-pending').textContent = data.total_ad_requests_pending;
+                    document.getElementById('total-ad-requests-accepted').textContent = data.total_ad_requests_accepted;
+                    document.getElementById('total-influencers').textContent = data.total_influencers;
+                    document.getElementById('user-flagged-items').textContent = data.flagged_users;
+                    document.getElementById('campaign-flagged-items').textContent = data.flagged_campaigns;
+                })
+                .catch(error => console.error('Error fetching dashboard data:', error));
+        });
+    </script>
+</body>
+</html>

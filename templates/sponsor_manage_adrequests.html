@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sponsor Manage AdRequest</title>
+  <!-- Include Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #6200ea;
+      --secondary-color: #03dac6;
+      --background-color: #f8f9fa;
+      --surface-color: #ffffff;
+      --on-surface-color: #000000;
+      --text-color: #333;
+      --card-bg: #ffffff;
+      --card-hover: #f1f1f1;
+      --border-color: #ddd;
+      --danger-color: #ff1744;
+      --success-color: #00e676;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--background-color);
+      color: var(--text-color);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .navbar {
+      background-color: var(--surface-color);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .navbar-brand {
+      color: var(--on-surface-color);
+      font-weight: 700;
+      font-size: 1.5rem;
+      text-decoration: none;
+    }
+
+    .btn-custom {
+      margin-right: 10px;
+    }
+
+    .btn-primary-custom {
+      background-color: var(--primary-color);
+      border-color: var(--primary-color);
+      color: var(--surface-color);
+      transition: all 0.3s ease;
+    }
+
+    .btn-primary-custom:hover {
+      background-color: #3700b3;
+      border-color: #6200ea;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .btn-danger-custom {
+      background-color: var(--danger-color);
+      border-color: var(--danger-color);
+      color: var(--surface-color);
+      transition: all 0.3s ease;
+    }
+
+    .btn-danger-custom:hover {
+      background-color: #d50000;
+      border-color: #b71c1c;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .btn-success-custom {
+      background-color: var(--success-color);
+      border-color: var(--success-color);
+      color: var(--surface-color);
+      transition: all 0.3s ease;
+    }
+
+    .btn-success-custom:hover {
+      background-color: #00c853;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .container {
+      flex-grow: 1;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .welcome-section {
+      background-color: var(--surface-color);
+      padding: 2rem;
+      border-radius: 15px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      margin-bottom: 2rem;
+    }
+
+    .welcome-section h1 {
+      color: var(--primary-color);
+      margin-bottom: 0.5rem;
+    }
+
+    .welcome-section p {
+      color: var(--text-color);
+      font-size: 1.1rem;
+    }
+
+    .table-container {
+      background-color: var(--surface-color);
+      border-radius: 15px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      animation: fadeIn 0.5s ease-in-out;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0 10px;
+    }
+
+    th, td {
+      padding: 1rem;
+      text-align: left;
+      vertical-align: middle;
+    }
+
+    th {
+      color: var(--primary-color);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    td {
+      color: var(--text-color);
+      background-color: var(--card-bg);
+      transition: all 0.3s ease;
+    }
+
+    tr:hover td {
+      background-color: var(--card-hover);
+      transform: scale(1.02);
+    }
+
+    .action-buttons button {
+      margin-right: 5px;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 1rem;
+      }
+
+      table {
+        font-size: 0.9rem;
+      }
+
+      .table-container {
+        padding: 1rem;
+        overflow-x: auto;
+      }
+    }
+
+    .btn-back {
+      background-color: transparent;
+      color: var(--primary-color);
+      border: none;
+      cursor: pointer;
+      font-size: 1.2rem;
+      transition: color 0.3s ease;
+    }
+
+    .btn-back:hover {
+      color: #3700b3;
+    }
+
+    .flash-messages {
+      margin-bottom: 1rem;
+    }
+
+    .flash-messages .alert {
+      border-radius: 10px;
+      padding: 1rem;
+    }
+
+    .no-adrequests {
+      text-align: center;
+      padding: 3rem;
+      background-color: var(--surface-color);
+      border-radius: 15px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .no-adrequests h3 {
+      color: var(--danger-color);
+      font-weight: bold;
+      margin-bottom: 1rem;
+    }
+
+    .no-adrequests p {
+      color: var(--text-color);
+      font-size: 1.1rem;
+    }
+    .navbar-custom .btn-danger {
+            color: #fff;
+            background-color: #dc3545;
+            border-color: #dc3545;
+        }
+
+        .navbar-custom .btn-danger:hover {
+            background-color: #c82333;
+        }
+
+  </style>
+</head>
+
+<body>
+  <nav class="navbar">
+    <button class="btn-back" onclick="history.back()">
+      <i class="fas fa-arrow-left"></i>
+    </button>
+    <a class="navbar-brand" href="#">Sponsor Manage AdRequest</a>
+    <div>
+      <button class="btn btn-primary-custom btn-custom" onclick="location.href='{{ url_for('sponsor.sponsor_managecampaign') }}'">Manage Campaigns</button>
+      <button class="btn btn-secondary btn-custom" onclick="location.href='{{ url_for('sponsor.search_influencer') }}'">Search Influencers</button>
+      <button class="btn btn-danger" onclick="location.href='/logout'"><i class="fas fa-sign-out-alt"></i> Log Out</button>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="welcome-section">
+      <h1>Welcome, {{ session['user_name'] }}</h1>
+      <p>This is where you can manage Ad Requests.</p>
+    </div>
+
+    <div class="flash-messages">
+      {% with messages = get_flashed_messages() %}
+      {% if messages %}
+      <div class="alert alert-danger">
+        <ul>
+          {% for message in messages %}
+          <li>{{ message }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% endif %}
+      {% endwith %}
+    </div>
+
+    <button class="btn btn-success-custom mb-4" onclick="location.href='/sponsor/manageadrequest/add_adrequest'">
+      <i class="fas fa-plus-circle mr-2"></i>Add New AdRequest
+    </button>
+
+    {% if adrequest_data %}
+    <div class="table-container">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Campaign Id</th>
+            <th>Influencer Id</th>
+            <th>Requirements</th>
+            <th>Payment Amount</th>
+            <th>Status</th>
+            <th>Message</th>
+            <th>Proposed Payment Amount</th>
+            <th>Negotiation Info</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for data in adrequest_data %}
+          <tr>
+            <td>{{ data['campaign_id'] }}</td>
+            <td>{{ data['influencer_id'] }}</td>
+            <td>{{ data['requirements'] }}</td>
+            <td>{{ data['payment_amount'] }}</td>
+            <td>{{ data['status'] }}</td>
+            <td>{{ data['messages'] }}</td>
+            <td>{{ data['proposed_payment_amount'] }}</td>
+            <td>{{ data['negotiation_status'] }}</td>
+            <td class="action-buttons">
+              <button class="btn btn-info" onclick="location.href='{{ url_for('sponsor.edit_adrequest', adrequest_id=data['ad_request_id']) }}'">Edit</button>
+              <button class="btn btn-danger-custom" onclick="location.href='/sponsor/manageadrequest/delete_adrequest/{{ data['ad_request_id'] }}'">Delete</button>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+    <div class="no-adrequests">
+      <h3>No Ad Requests to show!</h3>
+      <p>It looks like there are no ad requests at the moment. Please check back later.</p>
+    </div>
+    {% endif %}
+  </div>
+
+  <!-- Include Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>

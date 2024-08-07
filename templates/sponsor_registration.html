@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sponsor Registration</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .registration-container {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+            transition: box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out;
+        }
+
+        .registration-container:hover {
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+            transform: translateY(-5px);
+        }
+
+        .registration-container h1 {
+            margin-bottom: 20px;
+            font-size: 1.75rem;
+            color: #333;
+        }
+
+        .registration-container .form-group {
+            margin-bottom: 20px;
+        }
+
+        .registration-container .form-group label {
+            font-weight: 600;
+        }
+
+        .registration-container .form-control {
+            border-radius: 8px;
+            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s ease-in-out;
+        }
+
+        .registration-container .form-control:focus {
+            box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.25);
+            border-color: #007bff;
+        }
+
+        .registration-container .btn-primary {
+            width: 100%;
+            border-radius: 8px;
+            font-weight: 600;
+            background: #007bff;
+            border: none;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        .registration-container .btn-primary:hover {
+            background: #0056b3;
+        }
+
+        .alert-danger {
+            margin-bottom: 20px;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="registration-container">
+        <h1>Sponsor Registration</h1>
+
+        <div id="flash">
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            <div class="alert alert-danger">
+                <ul>
+                    {% for message in messages %}
+                    <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+            {% endwith %}
+        </div>
+
+        <form action="{{ url_for('sponsor.sponsor_registration') }}" method="POST">
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" class="form-control" id="username" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" class="form-control" id="password" name="password" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" class="form-control" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="company_name">Company Name:</label>
+                <input type="text" class="form-control" id="company_name" name="company_name" required>
+            </div>
+            <div class="form-group">
+                <label for="industry">Industry:</label>
+                <input type="text" class="form-control" id="industry" name="industry" required>
+            </div>
+            <div class="form-group">
+                <label for="budget">Budget:</label>
+                <input type="number" class="form-control" id="budget" name="budget" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Register</button>
+        </form>
+    </div>
+</body>
+</html>

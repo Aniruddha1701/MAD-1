@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campaigns | Influencer</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .navbar {
+            border-bottom: 1px solid #dee2e6;
+        }
+        .btn-custom {
+            width: 120px;
+        }
+        .table thead th {
+            background-color: #007bff;
+            color: #fff;
+        }
+        .table tbody tr:hover {
+            background-color: #e9ecef;
+        }
+        .btn-icon {
+            font-size: 1.2em;
+        }
+        .table-actions {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px; 
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container mt-4">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <button class="btn btn-primary btn-custom" onclick="location.href='{{ url_for('influencer.dashboard') }}'">Manage AdRequest</button>
+            <button class="btn btn-secondary btn-custom ml-2" onclick="location.href='/logout'">Log Out</button>
+            <form class="form-inline my-2 my-lg-0 ml-auto">
+                <input class="form-control mr-sm-2" type="search" placeholder="Niche" id="search_camp" oninput="search()">
+                <button class="btn btn-outline-success my-2 my-sm-0" onclick="search(); return false;">Search</button>
+            </form>
+        </nav>
+
+        <table class="table table-striped mt-4" id="campaignTable">
+            <thead>
+                <tr>
+                    <th scope="col">Campaign ID</th>
+                    <th scope="col">Sponsor ID</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Start Date</th>
+                    <th scope="col">End Date</th>
+                    <th scope="col">Budget</th>
+                    <th scope="col">Goals</th>
+                    <th scope="col">Niche</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for d in data %}
+                <tr>
+                    <td>{{ d["campaign_id"] }}</td>
+                    <td>{{ d["sponsor_id"] }}</td>
+                    <td>{{ d["name"] }}</td>
+                    <td>{{ d["description"] }}</td>
+                    <td>{{ d["start_date"] }}</td>
+                    <td>{{ d["end_date"] }}</td>
+                    <td>{{ d["budget"] }}</td>
+                    <td>{{ d["goals"] }}</td>
+                    <td>{{ d["niche"] }}</td>
+                    <td class="table-actions">
+                        <button class="btn btn-success btn-icon" title="Accept"><i class="fas fa-check"></i></button>
+                        <button class="btn btn-warning btn-icon" title="Negotiate"><i class="fas fa-exchange-alt"></i></button>
+                        <button class="btn btn-danger btn-icon" title="Reject"><i class="fas fa-times"></i></button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <script>
+        var data = {{ data|tojson|safe }};
+        
+        function search() {
+            var input = document.getElementById('search_camp').value.toLowerCase();
+            var results = data.filter(function(item) {
+                return item.niche.toLowerCase().includes(input);
+            });
+            var table = document.getElementById('campaignTable').getElementsByTagName('tbody')[0];
+            table.innerHTML = '';
+
+            results.forEach(function(item) {
+                var row = table.insertRow();
+                row.insertCell(0).innerText = item["campaign_id"];
+                row.insertCell(1).innerText = item["sponso

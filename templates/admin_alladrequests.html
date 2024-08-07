@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Ad Requests</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        :root {
+            --primary-color: #6200ea;
+            --secondary-color: #03dac6;
+            --background-color: #121212;
+            --surface-color: #1e1e1e;
+            --on-surface-color: #ffffff;
+            --text-color: #e0e0e0;
+            --card-bg: #2d2d2d;
+            --card-hover: #3d3d3d;
+            --border-color: #333;
+            --danger-color: #ff1744;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            flex-grow: 1;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .table-container {
+            background-color: var(--surface-color);
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        h1 {
+            margin-bottom: 1rem;
+            color: var(--on-surface-color);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            color: var(--secondary-color);
+            font-weight: 600;
+        }
+
+        td {
+            color: var(--text-color);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            table {
+                font-size: 0.9rem;
+            }
+
+            .table-container {
+                padding: 1rem;
+            }
+        }
+
+        .navbar {
+            background-color: var(--surface-color);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-brand {
+            color: var(--on-surface-color);
+            font-weight: 700;
+            font-size: 1.5rem;
+            text-decoration: none;
+        }
+
+        .btn-logout {
+            background-color: var(--danger-color);
+            color: var(--on-surface-color);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-logout:hover {
+            background-color: #d50000;
+        }
+
+        .btn-back {
+            background-color: transparent;
+            color: var(--on-surface-color);
+            border: none;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: color 0.3s ease;
+        }
+
+        .btn-back:hover {
+            color: var(--primary-color);
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <button class="btn-back" onclick="history.back()">
+            <i class="fas fa-arrow-left"></i>
+        </button>
+        <a class="navbar-brand" href="#">AdminHub</a>
+        <button class="btn-logout" onclick="location.href='/logout'">Log Out</button>
+    </nav>
+    <div class="container">
+        <div class="table-container">
+            <h1>All Ad Requests</h1>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Ad Request ID</th>
+                        <th>Campaign ID</th>
+                        <th>Influencer ID</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for ad_request in ad_requests %}
+                    <tr>
+                        <td>{{ ad_request.ad_request_id }}</td>
+                        <td>{{ ad_request.campaign_id }}</td>
+                        <td>{{ ad_request.influencer_id }}</td>
+                        <td>{{ ad_request.status }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

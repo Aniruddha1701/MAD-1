@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sponsor Manage Campaign</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        :root {
+            --primary-color: #6200ea;
+            --secondary-color: #03dac6;
+            --background-color: #f8f9fa;
+            --surface-color: #ffffff;
+            --on-surface-color: #000000;
+            --text-color: #333;
+            --card-bg: #ffffff;
+            --card-hover: #f1f1f1;
+            --border-color: #ddd;
+            --danger-color: #ff1744;
+            --success-color: #00e676;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            flex-grow: 1;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .navbar {
+            background-color: var(--surface-color);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-brand {
+            color: var(--on-surface-color);
+            font-weight: 700;
+            font-size: 1.5rem;
+            text-decoration: none;
+        }
+
+        .btn-custom {
+            margin-right: 10px;
+        }
+
+        .btn-primary-custom {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            color: var(--surface-color);
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary-custom:hover {
+            background-color: #3700b3;
+            border-color: #6200ea;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-danger-custom {
+            background-color: var(--danger-color);
+            border-color: var(--danger-color);
+            color: var(--surface-color);
+            transition: all 0.3s ease;
+        }
+
+        .btn-danger-custom:hover {
+            background-color: #d50000;
+            border-color: #b71c1c;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .table-container {
+            background-color: var(--surface-color);
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        h1 {
+            margin-bottom: 1rem;
+            color: var(--on-surface-color);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 10px;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            vertical-align: middle;
+        }
+
+        th {
+            color: var(--primary-color);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            color: var(--text-color);
+            background-color: var(--card-bg);
+            transition: all 0.3s ease;
+        }
+
+        tr:hover td {
+            background-color: var(--card-hover);
+            transform: scale(1.02);
+        }
+
+        .action-buttons button {
+            margin-right: 5px;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            table {
+                font-size: 0.9rem;
+            }
+
+            .table-container {
+                padding: 1rem;
+                overflow-x: auto;
+            }
+        }
+
+        .btn-back {
+            background-color: transparent;
+            color: var(--primary-color);
+            border: none;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: color 0.3s ease;
+        }
+
+        .btn-back:hover {
+            color: #3700b3;
+        }
+
+        .welcome-section {
+            background-color: var(--surface-color);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .welcome-section h1 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .welcome-section p {
+            color: var(--text-color);
+            font-size: 1.1rem;
+        }
+
+        .btn-add-campaign {
+            background-color: var(--success-color);
+            color: var(--surface-color);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-add-campaign:hover {
+            background-color: #00c853;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .flash-messages {
+            margin-bottom: 1rem;
+        }
+
+        .flash-messages .alert {
+            border-radius: 10px;
+            padding: 1rem;
+        }
+
+        .no-campaigns {
+            text-align: center;
+            padding: 3rem;
+            background-color: var(--surface-color);
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .no-campaigns h3 {
+            color: var(--danger-color);
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .no-campaigns p {
+            color: var(--text-color);
+            font-size: 1.1rem;
+        }
+        .navbar-custom .btn-danger {
+            color: #fff;
+            background-color: #dc3545;
+            border-color: #dc3545;
+        }
+
+        .navbar-custom .btn-danger:hover {
+            background-color: #c82333;
+        }
+
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <button class="btn-back" onclick="history.back()">
+            <i class="fas fa-arrow-left"></i>
+        </button>
+        <a class="navbar-brand" href="#">Sponsor Manage Campaign</a>
+        <div>
+            <button class="btn btn-primary-custom btn-custom" onclick="location.href='{{ url_for('sponsor.sponsor_manageadrequest') }}'">Manage Ad Requests</button>
+            <button class="btn btn-secondary btn-custom" onclick="location.href='{{ url_for('sponsor.search_influencer') }}'">Search Influencers</button>
+            <button class="btn btn-danger" onclick="location.href='/logout'"><i class="fas fa-sign-out-alt"></i> Log Out</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="welcome-section">
+            <h1>Welcome, {{ data['user_name'] }}</h1>
+            <p>Manage your campaigns and boost your brand's visibility.</p>
+        </div>
+
+        <div class="flash-messages">
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            <div class="alert alert-info">
+                <ul>
+                    {% for message in messages %}
+                    <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+            {% endwith %}
+        </div>
+
+        <button class="btn btn-add-campaign mb-4" onclick="location.href='/sponsor/managecampaign/addcampaign'">
+            <i class="fas fa-plus-circle mr-2"></i>Add New Campaign
+        </button>
+
+        {% if campaign_data %}
+        <div class="table-container">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Campaign Name</th>
+                        <th>Description</th>
+                        <th>Niche</th>
+                        <th>Budget</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th>Goals</th>
+                        <th>Visibility</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                  {% for data in campaign_data %}
+                  <tr>
+                      <td>{{ data['name'] }}</td>
+                      <td>{{ data['description'] }}</td>
+                      <td>{{ data['niche'] }}</td>
+                      <td>{{ data['budget'] }}</td>
+                      <td>{{ data['start_date'] }}</td>
+                      <td>{{ data['end_date'] }}</td>
+                      <td>{{ data['goals'] }}</td>
+                      <td>{{ data['visibility'] }}</td>
+                      <td class="action-buttons">
+                        <button class="btn btn-warning btn-sm" onclick="location.href='/sponsor/managecampaign/editcampaign/{{ data['campaign_id'] }}'">
+                            <i class="fas fa-edit mr-1"></i>Edit
+                        </button>
+                        <button class="btn btn-danger-custom btn-sm" onclick="confirmDelete('{{ data['campaign_id'] }}', '{{ data['name'] }}')">
+                            <i class="fas fa-trash-alt mr-1"></i>Delete
+                        </button>
+                      </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="no-campaigns">
+            <h3><i class="fas fa-exclamation-circle mr-2"></i>No Campaigns to show!</h3>
+            <p>Start by adding a new campaign to boost your brand's visibility.</p>
+        </div>
+        {% endif %}
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script>
+        function confirmDelete(campaignId, campaignName) {
+            if (confirm(`Are you sure you want to delete the campaign "${campaignName}"?`)) {
+                location.href = `/sponsor/managecampaign/deletecampaign/${campaignId}`;
+            }
+        }
+    </script>
+</body>
+</html>

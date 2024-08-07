@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Influencers | Sponsor</title>
+    <!-- Adding Bootstrap CSS for styling -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f5f6fa;
+            font-family: 'Roboto', sans-serif;
+            color: #333;
+            padding: 20px;
+        }
+
+        .navbar-custom {
+            background-color: #ffffff;
+            border-bottom: 1px solid #ddd;
+            padding: 15px 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-brand {
+            font-size: 1.5rem;
+            color: #343a40;
+            font-weight: 500;
+        }
+
+        .navbar-brand:hover {
+            color: #007bff;
+        }
+
+        .navbar-custom .btn {
+            border-radius: 50px;
+            margin-right: 10px;
+            font-weight: 500;
+        }
+
+        .navbar-custom .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+            color: #fff;
+        }
+
+        .navbar-custom .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        .navbar-custom .btn-outline-success {
+            color: #28a745;
+            border-color: #28a745;
+        }
+
+        .navbar-custom .btn-outline-success:hover {
+            background-color: #28a745;
+            color: #fff;
+        }
+
+        .form-inline {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .form-control {
+            border-radius: 25px;
+            padding: 10px 15px;
+            border: 1px solid #ced4da;
+            box-shadow: none;
+        }
+
+        .form-control:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+        }
+
+        .table {
+            margin-top: 20px;
+            background-color: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            text-align: left;
+            padding: 12px;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            font-weight: 500;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        @media (max-width: 767.98px) {
+            .navbar-custom {
+                padding: 10px;
+            }
+
+            .form-inline {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .form-inline .form-control,
+            .form-inline .btn {
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light navbar-custom">
+        <a class="navbar-brand" href="/sponsor/managecampaign">Sponsor Manage Campaign</a>
+        <div class="ml-auto d-flex align-items-center flex-grow-1">
+            <form class="form-inline mx-auto" onsubmit="return false;">
+                <input type="search" class="form-control mr-2" placeholder="Search by niche" id="search_camp" name="search_camp">
+                <button class="btn btn-outline-success" onclick="influ_search();"><i class="fas fa-search"></i> Search</button>
+            </form>
+        </div>
+    </nav>
+
+    <table class="table table-striped" id="campaignTable">
+        <thead>
+            <tr>
+                <th scope="col">Influencer ID</th>
+                <th scope="col">Category</th>
+                <th scope="col">Name</th>
+                <th scope="col">Niche</th>
+                <th scope="col">Reach</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for d in data %}
+            <tr>
+                <td>{{ d["influencer_id"] }}</td>
+                <td>{{ d["category"] }}</td>
+                <td>{{ d["name"] }}</td>
+                <td>{{ d["niche"] }}</td>
+                <td>{{ d["reach"] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <script>
+        var data = {{ data|tojson|safe }};
+        
+        function debounce(func, delay) {
+            let timer;
+            return function(...args) {
+                clearTimeout(timer);
+                timer = setTimeout(() => func.apply(this, args), delay);
+            };
+        }
+
+        function influ_search() {
+            var input = document.getElementById('search_camp').value.toLowerCase();
+            var results = data.filter(function(item) {
+                return item.niche.toLowerCase().includes(input);
+            });
+
+            var table = document.getElementById('campaignTable').getElementsByTagName('tbody')[0];
+            table.innerHTML = '';
+
+            results.forEach(function(item) {
+                var row = table.insertRow();
+                row.insertCell(0).innerHTML = item["influencer_id"];
+                row.insertCell(1).innerHTML = item["category"];
+                row.insertCell(2).innerHTML = item["name"];
+                row.insertCell(3).innerHTML = item["niche"];
+                row.insertCell(4).innerHTML = item["reach"];
+            });
+        }
+
+        // Attach debounced search function to input field
+        document.getElementById('search_camp').addEventListener('input', debounce(influ_search, 300));
+    </script>
+
+    <!-- Adding Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>

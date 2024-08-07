@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sponsor Manage AdRequest</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f5f6fa;
+            font-family: 'Roboto', sans-serif;
+            color: #333;
+        }
+
+        .navbar-custom {
+            background-color: #fff;
+            border-bottom: 1px solid #ddd;
+            padding: 15px 30px;
+        }
+
+        .navbar-brand {
+            font-size: 1.5rem;
+            color: #343a40;
+            font-weight: 500;
+        }
+
+        .navbar-brand:hover {
+            color: #007bff;
+        }
+
+        .navbar-custom .btn {
+            border-radius: 50px;
+            margin: 0 5px;
+            font-weight: 500;
+        }
+
+        .navbar-custom .btn-danger {
+            color: #fff;
+            background-color: #dc3545;
+            border-color: #dc3545;
+        }
+
+        .navbar-custom .btn-danger:hover {
+            background-color: #c82333;
+        }
+
+        .navbar-custom .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+            color: #fff;
+        }
+
+        .navbar-custom .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        .navbar-custom .btn-secondary {
+            background-color: #6c757d;
+            border-color: #6c757d;
+            color: #fff;
+        }
+
+        .navbar-custom .btn-secondary:hover {
+            background-color: #565e64;
+        }
+
+        .container {
+            max-width: 700px;
+            background-color: #fff;
+            border-radius: 15px;
+            padding: 40px;
+            margin: 30px auto;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-weight: 500;
+            margin-bottom: 30px;
+            color: #343a40;
+            text-align: center;
+        }
+
+        .form-group label {
+            font-weight: 500;
+            color: #343a40;
+        }
+
+        .form-control {
+            border-radius: 25px;
+            padding: 12px 20px;
+            border: 1px solid #ced4da;
+        }
+
+        .form-control:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+        }
+
+        .btn-submit {
+            background-color: #28a745;
+            border: none;
+            border-radius: 25px;
+            padding: 10px 20px;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .btn-submit:hover {
+            background-color: #218838;
+        }
+
+        .form-check-input {
+            margin-top: 0.3rem;
+        }
+
+        .form-check-label {
+            margin-right: 20px;
+        }
+
+        .form-check-inline {
+            display: flex;
+            align-items: center;
+        }
+
+        .alert {
+            border-radius: 10px;
+            font-size: 0.95em;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-custom">
+        <a class="navbar-brand" href="/sponsor/managecampaign">Sponsor Manage Campaign</a>
+        <div class="ml-auto">
+            <button class="btn btn-primary" onclick="location.href='{{ url_for('sponsor.sponsor_managecampaign') }}'"><i class="fas fa-tasks"></i> Manage Campaigns</button>
+            <button class="btn btn-secondary" onclick="location.href='{{ url_for('sponsor.search_influencer') }}'"><i class="fas fa-search"></i> Search Influencers</button>
+            <button class="btn btn-danger" onclick="location.href='/logout'"><i class="fas fa-sign-out-alt"></i> Log Out</button>
+        </div>
+    </nav>
+
+
+    <div class="container mt-4">
+        <h1>Add New AdRequest</h1>
+    </div>
+
+    <div class="container">
+        <form action="{{ url_for('sponsor.add_adrequest') }}" method="POST">
+            <div class="form-group">
+                <label for="campaignid">Campaign ID:</label>
+                <input type="number" step="1" min="0" class="form-control" id="campaignid" name="campaignid" required>
+            </div>
+
+            <div class="form-group">
+                <label for="influencerid">Influencer ID:</label>
+                <input type="number" step="1" min="0" class="form-control" id="influencerid" name="influencerid" required>
+            </div>
+
+            <div class="form-group">
+                <label for="messages">Message:</label>
+                <textarea class="form-control" id="messages" name="messages" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="payment_amount">Payment Amount:</label>
+                <input type="number" step="1" min="0" class="form-control" id="payment_amount" name="payment_amount" required>
+            </div>
+
+            <div class="form-group">
+                <label for="requirements">Requirements:</label>
+                <textarea class="form-control" id="requirements" name="requirements" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Status:</label>
+                <div class="form-check">
+                    <input type="radio" class="form-check-input" id="pending" name="status" value="pending" required checked>
+                    <label class="form-check-label" for="pending">Pending</label>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-success btn-submit"><i class="fas fa-paper-plane"></i> Submit</button>
+        </form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>
